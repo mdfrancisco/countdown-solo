@@ -4,17 +4,21 @@ import random
 ROUNDS = 4
 
 VOWEL_STACK = [
-    "A","A","A","E","E","E",
-    "I","I","I","O","O","O",
+    "A","A","A","A","A","A","A","A","A",
+    "E","E","E","E","E","E","E","E","E","E","E","E",
+    "I","I","I","I","I","I","I","I","I",
+    "O","O","O","O","O","O","O","O",
     "U","U","U","U"
 ]
 
 CONSONANT_STACK = [
     "B","B","C","C","D","D","D","D","F","F","G","G","G",
-    "H","H","J","K","L","L","L","L","M","M","N","N","N",
-    "P","P","Q","R","R","R","R","S","S","S","S","T","T","T",
-    "V","V","W","W","X","Y","Y","Z"
+    "H","H","J","K","L","L","L","L","M","M","N","N","N","N","N","N",
+    "P","P","Q","R","R","R","R","R","R","S","S","S","S",
+    "T","T","T","T","T","T","V","V","W","W",
+    "X","Y","Y","Z"
 ]
+
 
 def load_dictionary(file):
     '''
@@ -43,7 +47,6 @@ def get_user_input(vowel_stack, consonant_stack):
         consonants_count = 0
 
         print("\nChoose 9 letters. Type 'v' for vowel, 'c' for consonant.\n")
-        print(f"Vowels left: {len(vowel_stack)}, Consonants left: {len(consonant_stack)}")
 
         for i in range(1, 10):
             #Prevent impossible selections:
@@ -75,8 +78,7 @@ def get_user_input(vowel_stack, consonant_stack):
         if vowels_count >= 3 and consonants_count >= 4:
             return letters
         
-        print("\nInvalid selection. You must choose at least 3 vowels and 4 consonants. Starting over.")
-        print("Restarting selection...\n")
+        print("\nInvalid selection. You must choose at least 3 vowels and 4 consonants. Starting over...")
 
         #put letters back into top stacks (reset)
         vowel_stack[:0] = [l for l in letters if l in "AEIOU"]
