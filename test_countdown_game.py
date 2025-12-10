@@ -6,7 +6,8 @@ from countdown_game import (
     find_matching_words,
     get_user_input,
     score_words,
-    VOWEL_STACK
+    VOWEL_STACK,
+    CONSONANT_STACK
 )
 
 @pytest.fixture
@@ -28,6 +29,10 @@ def sample_dict(tmp_path):
 def vowel_stack():
     """Provide a copy of the vowel stack."""
     return VOWEL_STACK[:]
+@pytest.fixture
+def vowel_stack():
+    """Provide a copy of the vowel stack."""
+    return CONSONANT_STACK[:]
 
 ## Dictionary Tests
 def test_load_dictionary(sample_dict):
@@ -98,14 +103,14 @@ def test_score_words_no_match(sample_dict):
 
 def test_get_user_input_restart(monkeypatch):
     """Test restarting selection if ratio of vowels/consonants invalid."""
-    #first attempt: 9 consonants (invalid), second attempt: 3 vowels, 6 consonants (valid)
+    # First attempt: 9 consonants (invalid), second attempt: 3 vowels, 6 consonants (valid)
     inputs = iter([ 
         "c","c","c","c","c","c","c","c","c", 
          "v","v","v","c","c","c","c","c","c" ])
     monkeypatch.setattr(builtins, "input", lambda x: next(inputs))
     
-    vowel_stack = ["A","E","I"]
-    consonant_stack = ["B","C","D","F","G","H"]
+    vowel_stack = ["A","E","I","O","U"]
+    consonant_stack = ["B","C","D","F","G","H","H","B","C","D","F","G","H","H"]
     
     letters = get_user_input(vowel_stack, consonant_stack)
     
