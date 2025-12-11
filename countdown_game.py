@@ -35,8 +35,7 @@ def get_user_input(vowel_stack: List[str], consonant_stack: List[str]) -> List[s
     Prompt the user to pick nine letters. 
     The user selects vowels or consonants one at a time. 
     
-    The function ensures at least 3 vowels and least 4 consonants 
-    and restart if the ratio is invalid.
+    Ensures at least 3 vowels and 4 consonants. Restarts if invalid.
     """
     while True:  # Repeat until valid mix of letters
 
@@ -47,12 +46,13 @@ def get_user_input(vowel_stack: List[str], consonant_stack: List[str]) -> List[s
         print("\nChoose 9 letters. Type 'v' for vowel, 'c' for consonant.\n")
 
         for i in range(1, 10):
-            choice = input(f"Pick letter {i}/9 (v/c): ").strip().lower()
-
-            if choice not in ("v", "c"):
+            while True:
+                choice = input(f"Pick letter {i}/9 (v/c): ").strip().lower()
+                if choice in ("v", "c"):
+                    break
                 print("Invalid input. Please type 'v' or 'c'.")
-                continue
 
+            # Continue with selection only after valid input
             if choice == "v":
                 letter = draw_letter(vowel_stack)
                 vowels_count += 1
@@ -74,7 +74,6 @@ def get_user_input(vowel_stack: List[str], consonant_stack: List[str]) -> List[s
         # Put letters back into top stacks (reset)
         vowel_stack[:0] = [l for l in letters if l in "AEIOU"]
         consonant_stack[:0] = [l for l in letters if l not in "AEIOU"]
-
 
 def find_matching_words(letters: str, dictionary: Set[str]) -> List[str]:
     """
@@ -112,10 +111,12 @@ def score_words(matching_words: List[str]) -> Tuple[int, List[str]]:
 
 def display_round_results(letters: List[str], longest_words: List[str], score: int) -> None:
     """Print the round summary including drawn letters, longest word(s), and score."""
-    print("Letters drawn:", " ".join(letters))
+    print("\nLetters drawn:", " ".join(letters))
     if longest_words:
+        capitalised = [word.upper() for word in longest_words]
+
         print(f"Longest word(s) ({len(longest_words[0])} letters):")
-        print(", ".join(longest_words))
+        print(", ".join(capitalised))
         print(f"Round Score: {score}")
     else:
         print("No valid words can be formed from these letters.")
